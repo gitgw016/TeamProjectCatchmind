@@ -65,8 +65,10 @@ public class Client {
 			MainController.userlist = MainController.userlist + user+("\n");
 			ChatVO list = new ChatVO(MainController.userlist);
 			list.setSignal(1);
-			MainController.sendAllChat(list);
-			System.out.println("ChatVO 1 : "+obj);
+			Platform.runLater(()->{
+				MainController.sendAllChat(list);
+				System.out.println("ChatVO 1 : "+obj);
+			});
 			break;
 		case 2 :
 			String name = obj.getName();
@@ -74,7 +76,7 @@ public class Client {
 			ChatVO chat = new ChatVO(name,text);
 			chat.setSignal(2);
 			MainController.sendAllChat(chat);
-			System.out.println("ChatVO : "+obj);
+			System.out.println("ChatVO 2: "+obj);
 			break;
 //		case 3 :
 //			String outName = obj.getName();

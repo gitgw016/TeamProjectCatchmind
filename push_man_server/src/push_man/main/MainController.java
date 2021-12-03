@@ -1,29 +1,26 @@
-package catchmind.main;
+package push_man.main;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import catchmind.dao.MemberDAO;
-import catchmind.dao.MemberDAOImpl;
-import catchmind.vo.ChatVO;
-import catchmind.vo.MemberVO;
-import catchmind.vo.PaintVO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import push_man.dao.MemberDAO;
+import push_man.dao.MemberDAOImpl;
+import push_man.dao.ScoreDAOImpl;
 
 public class MainController implements Initializable {
-	
+
 	@FXML private TextArea txtArea;
 	@FXML private Button btnStartStop;
 	// Client Socket 연결 관리
@@ -34,12 +31,12 @@ public class MainController implements Initializable {
 	
 	// 전체 Client 목록
 	public static List<Client> clients;
+	// 대기실 사용자 목록
+	public static List<Client> roomList;
 	
 	public static MemberDAO memberDAO;
+	public static ScoreDAOImpl scoreDAO;
 	
-	public static String userlist = "";
-	
-
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -58,10 +55,14 @@ public class MainController implements Initializable {
 	
 	// Socket Server 초기화
 	public void initServer() {
+		// 회원관리 DAO
 		memberDAO = new MemberDAOImpl();
+		// 기록 관리 DAO
+		scoreDAO = new ScoreDAOImpl(); 
 		threadPool = Executors.newFixedThreadPool(30);
 		mc = this;
 		clients = new ArrayList<>();
+		roomList = new ArrayList<>();
 		
 		Runnable task = new Runnable() {
 			@Override
@@ -70,19 +71,17 @@ public class MainController implements Initializable {
 					appendText("서버 생성");
 					server = new ServerSocket(8001);
 					while(true) {
-						appendText("Client 연결 대기..");
-						// client의 정보를 받아들이게 되면 그 정보를 socket에 저장 후 대기
+						appendText("Client 연결 대기중...");
 						Socket client = server.accept();
-						// 연결된 주소의 ip값을 받아옴
-						String client_ip = client.getInetAddress().getHostAddress();
+						String client_ip 
+							= client.getInetAddress().getHostAddress();
 						appendText(client_ip+" 연결 완료");
 						Client c = new Client(client);
-						// 임계영역(다른 클라이언트(스레드)는 아래가 완료되기전까지 대기)
 						synchronized (clients) {
 							clients.add(c);
 						}
 						appendText(clients.size()+" 생성 완료");
-					}
+					} 
 				} catch (Exception e) {
 					stopServer();
 					System.out.println("서버 종료 : "+e.getMessage());
@@ -95,6 +94,7 @@ public class MainController implements Initializable {
 	// Server Stop
 	public void stopServer() {
 		appendText("서버 종료");
+		
 		try {
 			if(clients != null) {
 				for(Client c : clients) {
@@ -108,6 +108,7 @@ public class MainController implements Initializable {
 			if(server != null && !server.isClosed()) {
 				server.close();
 			}
+			
 		} catch (IOException e) {}
 		finally {
 			threadPool.shutdownNow();
@@ -117,19 +118,18 @@ public class MainController implements Initializable {
 	// Server Log
 	public void appendText(String data) {
 		Platform.runLater(()->{
-			txtArea.appendText(data +"\n");
+			txtArea.appendText(data+"\n");
 		});
-	}
-	public static void sendAllClient(PaintVO obj) {
-		for(Client c : clients) {
-			c.sendData(obj);
-		}
-	}
-	
-	public static void sendAllChat(ChatVO obj) {
-		for(Client c : clients) {
-			c.sendData(obj);
-		}
 	}
 
 }
+
+
+
+
+
+
+
+
+
+

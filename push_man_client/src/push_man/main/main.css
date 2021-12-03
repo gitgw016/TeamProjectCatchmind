@@ -1,0 +1,11 @@
+/* push_man.main.main.css */
+VBox.mainRoot{
+	-fx-background-color:transparent;
+}
+
+.loading{
+	-fx-font-size:40;
+	-fx-font-weight:bold;
+	-fx-text-fill:BLACK;
+}
+
