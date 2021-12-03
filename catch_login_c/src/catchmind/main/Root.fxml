@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane id="loginImg" prefHeight="500.0" prefWidth="300.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catchmind.main.MemberController">
+   <children>
+      <AnchorPane fx:id="apl" prefHeight="500.0" prefWidth="300.0">
+         <children>
+            <Label layoutX="35.0" layoutY="275.0" text="아이디" />
+            <Label layoutX="35.0" layoutY="315.0" text="비밀번호" />
+            <Button fx:id="btnIn" layoutY="360.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="로그인" />
+            <Button fx:id="btnAdd" layoutY="405.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="회원가입" />
+            <Button fx:id="btnOut" layoutY="450.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="나가기" />
+            <TextField fx:id="txtID" layoutX="90.0" layoutY="270.0" prefHeight="23.0" prefWidth="170.0" />
+            <PasswordField fx:id="txtPw" layoutX="90.0" layoutY="310.0" prefHeight="23.0" prefWidth="170.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apa" disable="true" prefHeight="500.0" prefWidth="300.0" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="78.0" layoutY="14.0" text="회원가입" textFill="#2d749a">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="265.0" text="아이디" />
+            <Label layoutX="16.0" layoutY="300.0" text="비밀번호" />
+            <Label layoutX="16.0" layoutY="335.0" text="비밀번호 확인" />
+            <Label layoutX="16.0" layoutY="370.0" text="닉네임" />
+            <TextField fx:id="txtIDa" layoutX="95.0" layoutY="260.0" prefHeight="23.0" prefWidth="118.0" />
+            <TextField fx:id="txtNick" layoutX="95.0" layoutY="365.0" prefHeight="23.0" prefWidth="169.0" />
+            <PasswordField fx:id="txtPwa" layoutX="95.0" layoutY="295.0" prefHeight="23.0" prefWidth="169.0" />
+            <PasswordField fx:id="txtPwc" layoutX="95.0" layoutY="330.0" prefHeight="23.0" prefWidth="169.0" />
+            <Button fx:id="btnJoin" layoutX="75.0" layoutY="425.0" mnemonicParsing="false" text="가입요청" />
+            <Button fx:id="btnCancel" layoutX="160.0" layoutY="425.0" mnemonicParsing="false" text=" 취소 " />
+            <Button fx:id="btnCheck" layoutX="222.0" layoutY="260.0" mnemonicParsing="false" text="중복확인" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
