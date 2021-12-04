@@ -210,7 +210,8 @@ public class MemberController implements Initializable {
 		secondStage.close();//기존창 종료
 		Platform.runLater(()->{
 			String name = user.getMemberName();
-			ChatVO nick = new ChatVO(name,1);
+			String id = user.getMemberId();
+			ChatVO nick = new ChatVO(name,id,1);
 			ClientMain.thread.sendData(nick);
 		});
 	}

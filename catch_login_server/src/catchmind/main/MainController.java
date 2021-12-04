@@ -37,8 +37,7 @@ public class MainController implements Initializable {
 	
 	public static MemberDAO memberDAO;
 	
-	public static String userlist = "";
-	
+	public static List<Client> members;		// 추가
 
 	
 	@Override
@@ -62,6 +61,7 @@ public class MainController implements Initializable {
 		threadPool = Executors.newFixedThreadPool(30);
 		mc = this;
 		clients = new ArrayList<>();
+		members = new ArrayList<>();	// 추가
 		
 		Runnable task = new Runnable() {
 			@Override
@@ -120,14 +120,16 @@ public class MainController implements Initializable {
 			txtArea.appendText(data +"\n");
 		});
 	}
-	public static void sendAllClient(PaintVO obj) {
-		for(Client c : clients) {
+	public static void sendAllClient(PaintVO obj) {		// 변경
+		List<Client> gameList = MainController.members;
+		for(Client c : gameList) {
 			c.sendData(obj);
 		}
 	}
 	
-	public static void sendAllChat(ChatVO obj) {
-		for(Client c : clients) {
+	public static void sendAllChat(ChatVO obj) {	// 변경
+		List<Client> gameList = MainController.members;
+		for(Client c : gameList) {
 			c.sendData(obj);
 		}
 	}

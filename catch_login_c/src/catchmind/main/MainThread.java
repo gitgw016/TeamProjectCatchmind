@@ -3,6 +3,7 @@ package catchmind.main;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import catchmind.game.GameController;
 import catchmind.vo.ChatVO;
@@ -30,6 +31,8 @@ public class MainThread extends Thread{
 						gameController.receiveData((PaintVO)obj);
 					}else if(obj instanceof ChatVO) {
 						gameController.receiveData((ChatVO)obj);
+					}else if(obj instanceof List<?>){
+						gameController.receiveData(obj);
 					}
 				}
 			}

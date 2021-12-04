@@ -35,6 +35,11 @@
             <Font size="24.0" />
          </font></Label>
       <Button fx:id="btnStop" layoutX="844.0" layoutY="686.0" mnemonicParsing="false" text="게임 중지(방장만)" />
-      <TextArea fx:id="txtUser" editable="false" focusTraversable="false" layoutX="800.0" layoutY="117.0" prefHeight="124.0" prefWidth="195.0" />
+      <TableView fx:id="userList" layoutX="798.0" layoutY="118.0" prefHeight="122.0" prefWidth="200.0">
+        <columns>
+          <TableColumn prefWidth="75.0" />
+          <TableColumn prefWidth="124.0" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

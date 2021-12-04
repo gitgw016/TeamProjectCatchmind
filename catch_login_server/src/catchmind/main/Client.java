@@ -48,6 +48,17 @@ public class Client {
 							}else if(obj instanceof ChatVO) {
 								System.out.println("채팅관련 요청");
 								desposeChat((ChatVO)obj);
+							}else if(obj instanceof Integer) {	// 추가
+							int num = (Integer)obj;
+							switch(num) {
+								case 0 : 
+									if(!MainController.members.contains(Client.this)) {
+										MainController.members.add(Client.this);
+										
+									}
+									userListService();
+									break;
+								}
 							}
 						}
 					} 
@@ -57,18 +68,13 @@ public class Client {
 			}
 		});
 	}
-	public void desposeChat(ChatVO obj) {
+	public void desposeChat(ChatVO obj) {	// 추가 및 변경
 		
 		switch(obj.getSignal()) {
 		case 1 :
-			String user = obj.getName();
-			MainController.userlist = MainController.userlist + user+("\n");
-			ChatVO list = new ChatVO(MainController.userlist);
-			list.setSignal(1);
-			Platform.runLater(()->{
-				MainController.sendAllChat(list);
-				System.out.println("ChatVO 1 : "+obj);
-			});
+			String nick = obj.getName();
+			ChatVO nickAll = new ChatVO(nick,1);
+			MainController.sendAllChat(nickAll);
 			break;
 		case 2 :
 			String name = obj.getName();
@@ -78,13 +84,6 @@ public class Client {
 			MainController.sendAllChat(chat);
 			System.out.println("ChatVO 2: "+obj);
 			break;
-//		case 3 :
-//			String outName = obj.getName();
-//			MainController.userlist = MainController.userlist.replaceFirst(outName+("\n"), "");
-//			ChatVO chatList = new ChatVO(MainController.userlist,3);
-//			ChatVO outter = new ChatVO(outName,4);
-//			MainController.sendAllChat(chatList);
-//			MainController.sendAllChat(outter);
 		}
 		
 	}
@@ -136,6 +135,28 @@ public class Client {
 		}
 	}
 	
+	public void userListService() {		// 추가
+		List<Client> cList = MainController.members;
+		List<MemberVO> memberList = new ArrayList<>();
+		for(Client c : cList) {
+			memberList.add(c.member);
+		}
+		for(Client c : cList) {
+			c.sendData(memberList);
+			
+		}
+		System.out.println(memberList +"갱신");
+	}
+	
+	public void outManBye() {		// 추가
+		List<Client> cList = MainController.members;
+		String out = this.member.getMemberName();
+		ChatVO outer = new ChatVO(out,3);
+		for(Client c : cList) {
+			c.sendData(outer);
+		}
+	}
+	
 	// client 연결 종료
 	public void removeClient() {
 		String ip = client.getInetAddress().getHostAddress();
@@ -144,19 +165,17 @@ public class Client {
 		
 		synchronized (MainController.clients) {
 			MainController.clients.remove(this);
-			
 		}
 		
+		if(MainController.members.contains(this)) {	// 추가
+			
 			if(this.member != null) {
-				synchronized (MainController.userlist) {
-					// 대기실 목록에서 삭제
-					String s = this.member.getMemberName();
-					MainController.userlist = MainController.userlist.replaceFirst(s+("\n"), "");
-					ChatVO chatList = new ChatVO(MainController.userlist,3);
-					ChatVO outter = new ChatVO(s,4);
-					MainController.sendAllChat(chatList);
-					MainController.sendAllChat(outter);
+				synchronized (MainController.members) {
+					MainController.members.remove(this);
+				}
 			}
+			userListService();
+			outManBye();
 		}
 		
 		if(client != null && !client.isClosed()) {

@@ -1,6 +1,7 @@
 package catchmind.game;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,7 @@ import catchmind.vo.ChatVO;
 import catchmind.vo.MemberVO;
 import catchmind.vo.PaintVO;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,11 +22,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -41,7 +45,8 @@ public class GameController implements Initializable , GameInterface{
 	//-----채팅 과 관련된 fx:id값들-----
 	@FXML private Button btnEnter;
 	@FXML private TextField chatArea;
-	@FXML private TextArea chatResult, txtUser;
+	@FXML private TextArea chatResult;
+	@FXML private TableView<MemberVO> userList; // tableview로 리스트 보여주게 만듬
 	//******채팅 과 관련된 fx:id값들*******
 	MemberVO name = MemberController.user;
 
@@ -60,6 +65,11 @@ public class GameController implements Initializable , GameInterface{
 	public void initialize(URL location, ResourceBundle resources) {
 		timer.setProgress(0);//시작버튼이 작동하게 하려면 프로그래스값 초기화
 		ClientMain.thread.gameController = this; //뭔진 모르겠는데 안꼬일려면 해야됨
+		Platform.runLater(()->{			// 추가
+			chatResult.requestFocus();
+			userListService();
+		});
+		
 		
 //---------------------------------그림그리는 관련------------------------
 		gc = canvas.getGraphicsContext2D();
@@ -68,8 +78,6 @@ public class GameController implements Initializable , GameInterface{
 		
 		slider.setMin(1);	
 		slider.setMax(100);
-		
-		txtUser.setFocusTraversable(false);
 		
 		btnStart.setOnAction(event->{
 			if(timer.getProgress() == 1||timer.getProgress() == 0) {//프로그래스바가 0이거나 1일때만 동작(게이지)
@@ -253,12 +261,10 @@ public class GameController implements Initializable , GameInterface{
 	// --------------ChatVO 객체 수신 ---------------
 		public void receiveData(ChatVO vo) {
 			
-			// 유저목록
-			if(vo.getSignal() == 1) {
-				String list = vo.getName();
+			if(vo.getSignal() == 1) {									// 수정
 				Platform.runLater(()->{
-					txtUser.clear();
-					txtUser.appendText(list);
+					String name = vo.getName();
+					chatResult.appendText(name+"님이 입장하셨습니다.\n");	
 				});
 			}
 			
@@ -271,25 +277,15 @@ public class GameController implements Initializable , GameInterface{
 				});
 			}
 			
-			if(vo.getSignal() == 3) {
-				String list = vo.getName();
-				Platform.runLater(()->{
-					txtUser.clear();
-					txtUser.appendText(list);
-				});
-			}
-			
-			if(vo.getSignal() == 4) {
+			if(vo.getSignal() == 3) {									//수정 + 4번 지움
 				String outman = vo.getName();
 				chatResult.appendText(outman+"님이 나갔습니다.\n");
 			}
 			
 		}// ***********ChatVO 객체 수신 종료***********
-	
+		
 //************************리시브 데이터 메소드 모음***************************
-	
-	
-	
+		
 	@Override
 	public void painting(PaintVO vo) {
 				
@@ -362,7 +358,20 @@ public class GameController implements Initializable , GameInterface{
 	}
 	
 		
-	
-	
-	
+	private void userListService() {		// 추가
+		TableColumn<MemberVO, String> columnNum = new TableColumn<>("유저번호");
+		columnNum.setStyle("-fx-alignment:center;");
+		columnNum.setPrefWidth(55);
+		columnNum.setCellValueFactory(new PropertyValueFactory<>("memberNum"));
+		TableColumn<MemberVO, String> columnName = new TableColumn<>("닉네임");
+		columnName.setCellValueFactory(new PropertyValueFactory<>("memberName"));
+		columnName.setPrefWidth(150);
+		userList.getColumns().add(0,columnNum);
+		userList.getColumns().add(1,columnName);
+		ClientMain.thread.sendData(0);
+	}
+
+	public void receiveData(Object obj) {		// 추가
+		userList.setItems(FXCollections.observableArrayList((ArrayList<MemberVO>)obj));
+	}
 }

@@ -31,7 +31,7 @@ public class ClientMain extends Application {
 	public void initClient() {
 		new Thread(()->{
 			try {
-				socket = new Socket("192.168.1.176",8001);
+				socket = new Socket("192.168.0.3",8001);
 				System.out.println("연결 성공");
 				thread = new MainThread();
 				thread.setDaemon(true);
@@ -77,7 +77,6 @@ public class ClientMain extends Application {
 		alert.showAndWait(); //창을 띄우고 버튼을 누르기 전까지 대기하는 메소드
 		if(alert.getResult() == ButtonType.OK) {
 			//OK버튼을 누르면 다시 서버연결 시도
-			//1.실행 initClient()
 			initClient();
 		}else if(alert.getResult() == ButtonType.CANCEL) {
 			Platform.exit();//CANCEL 버튼을 누르면 모든창을 닫음
