@@ -10,36 +10,43 @@
 
 <AnchorPane id="bgimg" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1000.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catchmind.game.GameController">
    <children>
-      <Label layoutX="874.0" layoutY="94.0" text="접속 인원" />
-      <Label layoutX="882.0" layoutY="249.0" text="채팅방" />
-      <TextArea fx:id="chatResult" layoutX="800.0" layoutY="277.0" prefHeight="324.0" prefWidth="195.0" />
       <Canvas fx:id="canvas" height="344.0" layoutX="254.0" layoutY="152.0" width="518.0" />
-      <Button id="btnBlack" fx:id="btnBlack" layoutX="261.0" layoutY="533.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="42.0" />
-      <Button id="btnRed" fx:id="btnRed" layoutX="319.0" layoutY="533.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="42.0" />
-      <Button id="btnGreen" fx:id="btnGreen" layoutX="370.0" layoutY="534.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="42.0" />
-      <Button id="btnBlue" fx:id="btnBlue" layoutX="421.0" layoutY="533.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="42.0" />
-      <Button id="btnyellow" fx:id="btnYellow" layoutX="471.0" layoutY="534.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="42.0" />
+      <Button id="btnBlack" fx:id="btnBlack" layoutX="250.0" layoutY="535.0" mnemonicParsing="false" prefHeight="73.0" prefWidth="42.0" />
+      <Button id="btnRed" fx:id="btnRed" layoutX="310.0" layoutY="535.0" mnemonicParsing="false" prefHeight="73.0" prefWidth="40.0" />
+      <Button id="btnGreen" fx:id="btnGreen" layoutX="430.0" layoutY="535.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="38.0" />
+      <Button id="btnBlue" fx:id="btnBlue" layoutX="490.0" layoutY="535.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="39.0" />
+      <Button id="btnyellow" fx:id="btnYellow" layoutX="370.0" layoutY="535.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="40.0" />
       <Button id="btnClose" fx:id="btnClose" layoutX="867.0" layoutY="8.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" />
-      <Button id="btnClear" fx:id="btnClear" layoutX="640.0" layoutY="557.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" />
-      <Slider fx:id="slider" layoutX="591.0" layoutY="534.0" prefHeight="14.0" prefWidth="161.0" />
-      <Button id="btnEraser" fx:id="btnEraser" layoutX="591.0" layoutY="561.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="42.0" />
-      <Button id="btnStart" fx:id="btnStart" layoutX="845.0" layoutY="637.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" />
+      <Button id="btnClear" fx:id="btnClear" layoutX="671.0" layoutY="564.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="84.0" />
+      <Slider fx:id="slider" layoutX="602.0" layoutY="535.0" prefHeight="14.0" prefWidth="161.0" />
+      <Button id="btnEraser" fx:id="btnEraser" layoutX="610.0" layoutY="564.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" />
+      <Button id="btnStart" fx:id="btnStart" layoutX="845.0" layoutY="634.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" />
       <ProgressBar fx:id="timer" layoutX="254.0" layoutY="509.0" prefHeight="18.0" prefWidth="518.0" progress="0.0" />
       <TextField fx:id="chatArea" layoutX="253.0" layoutY="615.0" prefHeight="23.0" prefWidth="452.0" />
       <Button fx:id="btnEnter" layoutX="719.0" layoutY="615.0" mnemonicParsing="false" text="보내기" />
-      <Button fx:id="muPlay" layoutX="28.0" layoutY="579.0" mnemonicParsing="false" text="재생" />
-      <Button fx:id="muStop" layoutX="166.0" layoutY="579.0" mnemonicParsing="false" text="중지" />
-      <Button fx:id="muPause" layoutX="83.0" layoutY="579.0" mnemonicParsing="false" text="일시정지" />
+      <Button id="Play" fx:id="muPlay" layoutX="38.0" layoutY="543.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Button id="Stop" fx:id="muStop" layoutX="134.0" layoutY="544.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Button id="Pause" fx:id="muPause" layoutX="84.0" layoutY="544.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Label id="post" fx:id="lblAnswer" alignment="CENTER" layoutX="28.0" layoutY="140.0" prefHeight="184.0" prefWidth="175.0">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button fx:id="btnStop" layoutX="844.0" layoutY="686.0" mnemonicParsing="false" text="게임 중지(방장만)" />
-      <TableView fx:id="userList" layoutX="798.0" layoutY="118.0" prefHeight="122.0" prefWidth="200.0">
-        <columns>
-          <TableColumn prefWidth="75.0" />
-          <TableColumn prefWidth="124.0" />
-        </columns>
-      </TableView>
+      <Button id="btnStop" fx:id="btnStop" layoutX="72.0" layoutY="324.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" />
+      <AnchorPane id="userLi" layoutX="800.0" layoutY="87.0" prefHeight="202.0" prefWidth="197.0">
+         <children>
+			   <TableView fx:id="userList" layoutX="4.0" layoutY="66.0" prefHeight="122.0" prefWidth="187.0">
+			      <columns>
+			        <TableColumn maxWidth="75.0" prefWidth="75.0" />
+			        <TableColumn maxWidth="200.0" prefWidth="124.0" />
+			      </columns>
+			  </TableView>        
+            <Label layoutX="8.0" layoutY="28.0" text="User List" textFill="#00f2ff" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="chat" layoutX="801.0" layoutY="275.0" prefHeight="302.0" prefWidth="195.0">
+         <children>
+            <TextArea fx:id="chatResult" layoutX="17.0" layoutY="22.0" prefHeight="266.0" prefWidth="164.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

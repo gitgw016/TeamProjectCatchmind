@@ -49,7 +49,7 @@ public class ClientMain extends Application implements MainInterface{
 		new Thread(()->{
 			
 			try {
-				socket = new Socket("192.168.1.113",8001);
+				socket = new Socket("192.168.0.3",8001);
 				System.out.println("연결 성공");
 				thread = new MainThread();
 				thread.setDaemon(true);
